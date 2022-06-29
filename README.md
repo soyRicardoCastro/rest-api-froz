@@ -11,10 +11,10 @@
 8. Refresh tokens
 
 ## What technology are we using?
-- [TypeScript](https://www.typescriptlang.org/) - Static tye checking 
+- [TypeScript](https://www.typescriptlang.org/) - Static tye checking
 - [Express@5](https://expressjs.com/en/5x/api.html) - Web server
 - [Typegoose](https://typegoose.github.io/typegoose/) - Mongoose wrapper for creating TypeScript interfaces and models
-- [argon2](https://github.com/ranisalt/node-argon2#readme) - Password hashing
+- [bcrypt](https://www.npmjs.com/package/bcrypt) - Password hashing
 - [Zod](https://github.com/colinhacks/zod) - Validation
 - [jsonwebtoken](https://github.com/auth0/node-jsonwebtoken) - Signing and verifying JSON web tokens
 - [Nodemailer](https://nodemailer.com/about/) - Sending emails
@@ -27,16 +27,4 @@
 - [Node.js](https://nodejs.org/en/)
 - [MongoDB](https://www.mongodb.com/try/download/community)
 
-## Video structure
-1. Demo
-2. Code walk-through
-3. Bootstrap application
-4. User API
-    1. Create user
-    2. Verify user
-    3. Request reset password code
-    4. Reset password
-    5. Get current user
-5. Authentication API
-    1. Create user session
-    2. Get new access token with refresh tokens
+_See .env.example_
