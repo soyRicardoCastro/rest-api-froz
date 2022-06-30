@@ -12,6 +12,6 @@ export function findUniByName(name: string) {
   return UniversityModel.findOne({ name })
 }
 
-export function createUni(input: Partial<University>) {
+export function createUni(input: any) {
   return UniversityModel.create(input)
 }

@@ -20,8 +20,6 @@ export async function createSessionHandler(
 
   if (!user) return res.send(message);
 
-  if (!user.verified) return res.send("Please verify your email");
-
   const isValid = await user.validatePassword(password);
 
   if (!isValid) return res.send(message);
