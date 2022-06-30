@@ -8,7 +8,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src/app.ts",
     "gen": "plop",
     "build": "tsc",
-    "start": "node"
+    "start": "node build/app.ts"
   },
   "devDependencies": {
     "@types/config": "^0.0.40",
