@@ -1,11 +1,11 @@
 import { getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
 
-class Career {
+export class Career {
   @prop()
   name: string;
 }
 
-class Coach {
+export class Coach {
   @prop({ unique: true })
   name: string;
 
@@ -37,8 +37,8 @@ export class University {
   @prop()
   academicRank: string;
 
-  @prop({ type: () => Career })
-  careers: Career[]
+  @prop()
+  careers: string[]
 
   @prop({ type: () => Coach })
   coachs: Coach[]

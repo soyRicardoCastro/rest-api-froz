@@ -81,15 +81,6 @@ export class User {
   @prop({ type: () => [String], required: true, default: RoleUser})
   role: string[];
 
-  @prop({ required: true, default: () => nanoid() })
-  verificationCode: string;
-
-  @prop()
-  passwordResetCode: string | null;
-
-  @prop({ default: false })
-  verified: boolean;
-
   async validatePassword(this: DocumentType<User>, candidatePassword: string) {
     try {
       return await bcrypt.compare(this.password, candidatePassword);
