@@ -1,0 +1,20 @@
+{
+    "name": "Fake Uni 3",
+    "state": "Fake state 2",
+    "careers": ["Fake career 1", "Fake career 2"],
+    "coachs": [
+    {
+        "name": "Fake name coach 3",
+        "gender": "Male",
+        "phone": "53215",
+        "email": "coach6@fake.com"
+    },
+    {
+        "name": "Fake name coach 5",
+        "gender": "Female",
+        "phone": "5125",
+        "email": "coach5@fake.com"
+    }],
+    "division": "Fake Division",
+    "academicRank": "Fake academik rank"
+}
