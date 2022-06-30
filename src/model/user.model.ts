@@ -75,6 +75,9 @@ export class User {
   @prop({ autopopulate: true, ref: () => University })
   universities: Ref<University>[]
 
+  @prop({ default: 0 })
+  completedTasks: number;
+
   @prop({ type: () => [String], required: true, default: RoleUser})
   role: string[];
 

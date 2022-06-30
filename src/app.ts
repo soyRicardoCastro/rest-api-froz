@@ -1,5 +1,7 @@
-require("dotenv").config();
 import express from "express";
+import morgan from "morgan";
+import cors from "cors";
+import dotenv from "dotenv";
 import config from "config";
 import connectToDb from "./utils/connectToDb";
 import log from "./utils/logger";
@@ -8,10 +10,9 @@ import deserializeUser from "./middleware/deserializeUser";
 
 const app = express();
 
+dotenv.config()
 app.use(express.json());
-
 app.use(deserializeUser);
-
 app.use(router);
 
 const port = config.get("port");

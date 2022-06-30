@@ -33,6 +33,24 @@ export const createUserSchema = object({
   }),
 });
 
+export const editUserSchema = object({
+  params: object({
+    id: string({
+      required_error: "Need id of user"
+    })
+  }),
+  body: object({
+    firstName: string().optional(),
+    lastName: string().optional(),
+    password: string().min(6, "Password is too short - should be min 6 chars").optional(),
+    email: string().email("Not a valid email").optional(),
+    age: number().nonnegative().optional(),
+    gender: string().optional(),
+    address: string().optional(),
+    role: array(string()).optional()
+  }),
+});
+
 export const verifyUserSchema = object({
   params: object({
     id: string(),
@@ -50,8 +68,12 @@ export const forgotPasswordSchema = object({
 
 export const resetPasswordSchema = object({
   params: object({
-    id: string(),
-    passwordResetCode: string(),
+    id: string({
+      required_error: "Require User id"
+    }),
+    passwordResetCode: string({
+      required_error: "Require Password Reset Code"
+    }),
   }),
   body: object({
     password: string({
@@ -67,6 +89,9 @@ export const resetPasswordSchema = object({
 });
 
 export type CreateUserInput = TypeOf<typeof createUserSchema>["body"];
+
+export type EditUserInput = TypeOf<typeof editUserSchema>["body"];
+export type EditUserParams = TypeOf<typeof editUserSchema>["params"];
 
 export type VerifyUserInput = TypeOf<typeof verifyUserSchema>["params"];
 
