@@ -1,6 +1,6 @@
 import { object, string, TypeOf, array } from "zod";
 
-const createUniversitySchema = object({
+export const createUniversitySchema = object({
   body: object({
     name: string({
       required_error: "Name is required"
@@ -15,7 +15,7 @@ const createUniversitySchema = object({
       required_error: "Academic Rank is required"
     }),
     careers: array(string()),
-    coach: object({
+    coachs: array(object({
       name: string({
         required_error: "Coach Name is required"
       }),
@@ -26,11 +26,11 @@ const createUniversitySchema = object({
       gender: string({
         required_error: "Gender is required"
       })
-    }),
+    })),
   })
 })
 
-const editUniversitySchema = object({
+export const editUniversitySchema = object({
   params: object({
     id: string({
       required_error: "University id is required"

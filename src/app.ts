@@ -11,6 +11,8 @@ import deserializeUser from "./middleware/deserializeUser";
 const app = express();
 
 dotenv.config()
+app.use(cors())
+app.use(morgan('dev'))
 app.use(express.json());
 app.use(deserializeUser);
 app.use(router);
