@@ -1,6 +1,9 @@
+import { config } from "dotenv";
+config();
+
 export default {
-  port: 3000,
-  dbUri: "mongodb://localhost:27017/user-api-tutorial",
+  port: process.env.PORT,
+  dbUri: process.env.MONGO_URI,
   logLevel: "info",
   accessTokenPrivateKey: "",
   refreshTokenPrivateKey: "",
