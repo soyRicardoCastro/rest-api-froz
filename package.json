@@ -8,7 +8,7 @@
     "dev": "ts-node-dev --respawn --transpile-only src",
     "gen": "plop",
     "build": "tsc",
-    "start": "node ./build/index.js"
+    "start": "node build/src/index.js"
   },
   "devDependencies": {
     "@types/config": "^0.0.40",
@@ -18,9 +18,7 @@
     "@types/lodash": "^4.14.178",
     "@types/mongoose-autopopulate": "^0.10.3",
     "@types/morgan": "^1.9.3",
-    "@types/nodemailer": "^6.4.4",
     "pino-pretty": "^7.3.0",
-    "plop": "^3.0.5",
     "ts-node-dev": "^1.1.8",
     "typescript": "^4.5.4"
   },
@@ -39,7 +37,6 @@
     "mongoose-autopopulate": "^0.16.1",
     "morgan": "^1.10.0",
     "nanoid": "^3.1.30",
-    "nodemailer": "^6.7.2",
     "pino": "^7.6.1",
     "zod": "^3.11.6"
   }
