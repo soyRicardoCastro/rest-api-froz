@@ -1,8 +1,8 @@
 {
-  "name": "auth-api-tutorial",
+  "name": "froz-rest-api",
   "version": "1.0.0",
-  "main": "index.js",
-  "author": "Tom Nagle",
+  "main": "build/index.js",
+  "author": "Ricardo Castro",
   "license": "MIT",
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src",
