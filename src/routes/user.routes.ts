@@ -21,7 +21,7 @@ router.post(
 );
 router.get("/api/users/me", requireUser, getCurrentUserHandler);
 
-router.get("api/users", getAllUsers)
+router.get("/api/users", getAllUsers)
 
 router.get("/api/users/:id", getUserById)
 
