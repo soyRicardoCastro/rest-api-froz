@@ -1,19 +1,12 @@
 import { Request, Response } from "express";
-import { nanoid } from "nanoid";
-import {
-  CreateUserInput,
-  ForgotPasswordInput,
-  ResetPasswordInput,
-  VerifyUserInput,
-} from "../schema/user.schema";
+import { CreateUserInput, AddUniListParams, AddUniListInput } from "../schema/user.schema";
 import {
   createUser,
-  findUserByEmail,
   findUserById,
   findUsers
 } from "../service/user.service";
-import log from "../utils/logger";
-// import { sendEmail } from "../utils/mailer";
+import UniversityModel from "../model/university.model"
+import UserModel from "../model/user.model"
 
 export async function getAllUsers(req: Request, res: Response) {
   try {
@@ -52,18 +45,9 @@ export async function createUserHandler(
   const body = req.body;
 
   try {
-    const user = await createUser(body);
-
-    user.universities = []
+    await createUser(body);
 
     return res.send("User successfully created");
-
-    // await sendEmail({
-    //   to: user.email,
-    //   from: "test@example.com",
-    //   subject: "Verify your email",
-    //   text: `verification code: ${user.verificationCode}. Id: ${user._id}`,
-    // });
   } catch (e: any) {
     if (e.code === 11000) {
       return res.status(409).send("Account already exists");
@@ -73,98 +57,26 @@ export async function createUserHandler(
   }
 }
 
-// export async function verifyUserHandler(
-//   req: Request<VerifyUserInput>,
-//   res: Response
-// ) {
-//   const id = req.params.id;
-//   const verificationCode = req.params.verificationCode;
+export async function AddUniversityList(req: Request<AddUniListParams, {}, AddUniListInput>, res: Response) {
+  try {
+    const { id } = req.params
+    const { universities } = req.body
 
-//   // find the user by id
-//   const user = await findUserById(id);
+    const unisFound = await UniversityModel.find({ name: universities })
 
-//   if (!user) {
-//     return res.send("Could not verify user");
-//   }
+    if (!unisFound) return res.status(404).send('No unis found')
 
-//   // check to see if they are already verified
-//   if (user.verified) {
-//     return res.send("User is already verified");
-//   }
+    const user = await UserModel.findById(id)
 
-//   // check to see if the verificationCode matches
-//   if (user.verificationCode === verificationCode) {
-//     user.verified = true;
+    if (!user) return res.status(404).send('No user found')
 
-//     await user.save();
+    const unis = unisFound.map(uni => uni._id)
 
-//     return res.send("User successfully verified");
-//   }
+    user.universities = unis
+    await user.save()
 
-//   return res.send("Could not verify user");
-// }
-
-// export async function forgotPasswordHandler(
-//   req: Request<{}, {}, ForgotPasswordInput>,
-//   res: Response
-// ) {
-//   const message =
-//     "If a user with that email is registered you will receive a password reset email";
-
-//   const { email } = req.body;
-
-//   const user = await findUserByEmail(email);
-
-//   if (!user) {
-//     log.debug(`User with email ${email} does not exists`);
-//     return res.send(message);
-//   }
-
-//   if (!user.verified) {
-//     return res.send("User is not verified");
-//   }
-
-//   const passwordResetCode = nanoid();
-
-//   user.passwordResetCode = passwordResetCode;
-
-//   await user.save();
-
-  // await sendEmail({
-  //   to: user.email,
-  //   from: "test@example.com",
-  //   subject: "Reset your password",
-  //   text: `Password reset code: ${passwordResetCode}. Id ${user._id}`,
-  // });
-
-//   log.debug(`Password reset email sent to ${email}`);
-
-//   return res.send(message);
-// }
-
-// export async function resetPasswordHandler(
-//   req: Request<ResetPasswordInput["params"], {}, ResetPasswordInput["body"]>,
-//   res: Response
-// ) {
-//   const { id, passwordResetCode } = req.params;
-
-//   const { password } = req.body;
-
-//   const user = await findUserById(id);
-
-//   if (
-//     !user ||
-//     !user.passwordResetCode ||
-//     user.passwordResetCode !== passwordResetCode
-//   ) {
-//     return res.status(400).send("Could not reset user password");
-//   }
-
-//   user.passwordResetCode = null;
-
-//   user.password = password;
-
-//   await user.save();
-
-//   return res.send("Successfully updated password");
-// }
+    return res.status(200).json({user})
+  } catch(e) {
+    return res.status(500).send(e)
+  }
+}
