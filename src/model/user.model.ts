@@ -22,7 +22,8 @@ export const privateFields = ["password",];
   if (!this.isModified("password")) {
     return;
   }
-  const hash = await bcrypt.hash(this.password, 10)
+  const salt = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(this.password, salt);
   this.password = hash;
   return;
 })
@@ -70,9 +71,9 @@ export class User {
   @prop({ type: () => [String], required: true, default: RoleUser})
   role: string[];
 
-  async validatePassword(this: DocumentType<User>, candidatePassword: string) {
+  async validatePassword(/*this: DocumentType<User>*/password: string, candidatePassword: string) {
     try {
-      return await bcrypt.compare(this.password, candidatePassword);
+      return await bcrypt.compare(password, candidatePassword);
     } catch (e) {
       log.error(e, "Could not validate password");
       return false;

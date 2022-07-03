@@ -20,7 +20,7 @@ export async function createSessionHandler(
 
   if (!user) return res.status(400).send(message);
 
-  const isValid = await user.validatePassword(password);
+  const isValid = await user.validatePassword(password, user.password);
 
   if (!isValid) return res.status(400).send(message);
 
@@ -48,7 +48,7 @@ export async function login(
 
   if (!user) return res.status(400).send("Invalid email");
 
-  const isValid = await user.validatePassword(password);
+  const isValid = await user.validatePassword(password, user.password);
 
   if (!isValid) return res.status(400).send("Invalid password");
 

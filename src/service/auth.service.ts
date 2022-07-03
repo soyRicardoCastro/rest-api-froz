@@ -3,7 +3,6 @@ import { omit } from "lodash";
 import SessionModel from "../model/session.model";
 import { privateFields, User } from "../model/user.model";
 import { signJwt } from "../utils/jwt";
-import { findUserById } from "./user.service";
 
 export const createSession = async ({userId}: { userId: string }) => SessionModel.create({ user: userId });
 
