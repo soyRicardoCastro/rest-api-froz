@@ -1,4 +1,4 @@
-import { getModelForClass, modelOptions, prop } from "@typegoose/typegoose";
+import { getModelForClass, modelOptions, prop, Severity } from "@typegoose/typegoose";
 
 export class Career {
   @prop()
@@ -21,8 +21,11 @@ export class Coach {
 
 @modelOptions({
   schemaOptions: {
-    timestamps: true
-  }
+    timestamps: true,
+  },
+  options: {
+    allowMixed: Severity.ALLOW,
+  },
 })
 export class University {
   @prop({ required: true, unique: true })
