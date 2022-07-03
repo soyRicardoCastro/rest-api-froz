@@ -1,6 +1,4 @@
 import { object, string, TypeOf, number, array } from "zod";
-import type { DocumentType } from "@typegoose/typegoose"
-import { University } from "../model/university.model"
 
 export const createUserSchema = object({
   body: object({
