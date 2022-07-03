@@ -1,4 +1,6 @@
 import { object, string, TypeOf, number, array } from "zod";
+import type { DocumentType } from "@typegoose/typegoose"
+import { University } from "../model/university.model"
 
 export const createUserSchema = object({
   body: object({
@@ -51,50 +53,21 @@ export const editUserSchema = object({
   }),
 });
 
-export const verifyUserSchema = object({
-  params: object({
-    id: string(),
-    verificationCode: string(),
-  }),
-});
-
-export const forgotPasswordSchema = object({
-  body: object({
-    email: string({
-      required_error: "Email is required",
-    }).email("Not a valid email"),
-  }),
-});
-
-export const resetPasswordSchema = object({
+export const addUniToList = object({
   params: object({
     id: string({
-      required_error: "Require User id"
-    }),
-    passwordResetCode: string({
-      required_error: "Require Password Reset Code"
-    }),
+      required_error: "Need user id"
+    })
   }),
   body: object({
-    password: string({
-      required_error: "Password is required",
-    }).min(6, "Password is too short - should be min 6 chars"),
-    passwordConfirmation: string({
-      required_error: "Password confirmation is required",
-    }),
-  }).refine((data) => data.password === data.passwordConfirmation, {
-    message: "Passwords do not match",
-    path: ["passwordConfirmation"],
-  }),
-});
+    universities: array(string())
+  })
+})
 
-export type CreateUserInput = TypeOf<typeof createUserSchema>["body"];
+export type CreateUserInput = TypeOf<typeof createUserSchema>["body"]
 
-export type EditUserInput = TypeOf<typeof editUserSchema>["body"];
-export type EditUserParams = TypeOf<typeof editUserSchema>["params"];
+export type EditUserInput = TypeOf<typeof editUserSchema>["body"]
+export type EditUserParams = TypeOf<typeof editUserSchema>["params"]
 
-export type VerifyUserInput = TypeOf<typeof verifyUserSchema>["params"];
-
-export type ForgotPasswordInput = TypeOf<typeof forgotPasswordSchema>["body"];
-
-export type ResetPasswordInput = TypeOf<typeof resetPasswordSchema>;
+export type AddUniListInput = TypeOf<typeof addUniToList>["body"]
+export type AddUniListParams = TypeOf<typeof addUniToList>["params"]
