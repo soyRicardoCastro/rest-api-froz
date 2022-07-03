@@ -9,7 +9,6 @@ import {
   Ref,
   plugin,
 } from "@typegoose/typegoose";
-import { nanoid } from "nanoid";
 import bcrypt from 'bcrypt'
 import autopopulate from 'mongoose-autopopulate';
 import log from "../utils/logger";
@@ -17,24 +16,14 @@ import { University } from "./university.model";
 
 export const RoleUser = ["user"]
 
-export const privateFields = [
-  "password",
-  "__v",
-  "verificationCode",
-  "passwordResetCode",
-  "verified",
-];
+export const privateFields = ["password",];
 
 @pre<User>("save", async function () {
   if (!this.isModified("password")) {
     return;
   }
-
   const hash = await bcrypt.hash(this.password, 10)
-  // const hash = await argon2.hash(this.password);
-
   this.password = hash;
-
   return;
 })
 @index({ email: 1 })
