@@ -2,6 +2,7 @@ import express from "express";
 import {
   createSessionHandler,
   refreshAccessTokenHandler,
+  login
 } from "../controller/auth.controller";
 import validateResource from "../middleware/validateResource";
 import { createSessionSchema } from "../schema/auth.schema";
@@ -15,5 +16,7 @@ router.post(
 );
 
 router.post("/api/sessions/refresh", refreshAccessTokenHandler);
+
+router.post("/api/login", login)
 
 export default router;
