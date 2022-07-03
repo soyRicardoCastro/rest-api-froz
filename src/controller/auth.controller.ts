@@ -18,23 +18,41 @@ export async function createSessionHandler(
 
   const user = await findUserByEmail(email);
 
-  if (!user) return res.send(message);
+  if (!user) return res.status(400).send(message);
 
   const isValid = await user.validatePassword(password);
 
-  if (!isValid) return res.send(message);
+  if (!isValid) return res.status(400).send(message);
 
-  // sign a access token
+  // * sign a access token
   const accessToken = signAccessToken(user);
 
-  // sign a refresh token
+  // * sign a refresh token
   const refreshToken = await signRefreshToken({ userId: user._id });
 
-  // send the tokens
+  // * send the tokens
   return res.send({
     accessToken,
     refreshToken,
   });
+}
+
+export async function login(
+  req: Request<{}, {}, CreateSessionInput>,
+  res: Response
+) {
+  const message = "Invalid email or password";
+  const { email, password } = req.body;
+
+  const user = await findUserByEmail(email);
+
+  if (!user) return res.status(400).send("Invalid email");
+
+  const isValid = await user.validatePassword(password);
+
+  if (!isValid) return res.status(400).send("Invalid password");
+
+  return res.status(200).json(user)
 }
 
 export async function refreshAccessTokenHandler(req: Request, res: Response) {
