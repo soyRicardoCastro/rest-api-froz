@@ -15,3 +15,7 @@ export function findUserByEmail(email: string) {
 export function findUsers() {
   return UserModel.find()
 }
+
+export function editUser(id: string, body: any) {
+  return UserModel.findByIdAndUpdate(id, body, { new: true })
+}

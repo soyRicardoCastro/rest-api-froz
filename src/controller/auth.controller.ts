@@ -46,13 +46,21 @@ export async function login(
 
   const user = await findUserByEmail(email);
 
-  if (!user) return res.status(400).send("Invalid email");
+  if (!user) return res.status(400).send(message);
 
   const isValid = await user.validatePassword(password, user.password);
 
-  if (!isValid) return res.status(400).send("Invalid password");
+  if (!isValid) return res.status(400).send(message);
 
-  return res.status(200).json(user)
+  const accessToken = signAccessToken(user);
+
+  const refreshToken = await signRefreshToken({ userId: user._id });
+
+  return res.status(200).send({
+    user,
+    accessToken,
+    refreshToken
+  })
 }
 
 export async function refreshAccessTokenHandler(req: Request, res: Response) {

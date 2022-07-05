@@ -1,4 +1,4 @@
-import UniversityModel, { University } from "../model/university.model"
+import UniversityModel from "../model/university.model"
 
 export function findAllUni() {
   return UniversityModel.find()
@@ -14,4 +14,8 @@ export function findUniByName(name: string) {
 
 export function createUni(input: any) {
   return UniversityModel.create(input)
+}
+
+export function editUni(id: string, body: any) {
+  return UniversityModel.findByIdAndUpdate({ id }, { body }, { new: true })
 }

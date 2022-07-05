@@ -4,7 +4,6 @@ import {
   prop,
   Severity,
   pre,
-  DocumentType,
   index,
   Ref,
   plugin,
@@ -15,12 +14,11 @@ import log from "../utils/logger";
 import { University } from "./university.model";
 
 export const RoleUser = ["user"]
-
 export const privateFields = ["password",];
 
 @pre<User>("save", async function () {
   if (!this.isModified("password")) {
-    return;
+    return
   }
   const salt = await bcrypt.genSalt(10);
   const hash = await bcrypt.hash(this.password, salt);
@@ -71,7 +69,7 @@ export class User {
   @prop({ type: () => [String], required: true, default: RoleUser})
   role: string[];
 
-  async validatePassword(/*this: DocumentType<User>*/password: string, candidatePassword: string) {
+  async validatePassword(password: string, candidatePassword: string) {
     try {
       return await bcrypt.compare(password, candidatePassword);
     } catch (e) {

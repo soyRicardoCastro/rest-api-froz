@@ -1,5 +1,12 @@
 import { Request, Response } from "express";
-import { CreateUserInput, AddUniListParams, AddUniListInput } from "../schema/user.schema";
+import bcrypt from "bcrypt"
+import {
+  CreateUserInput,
+  AddUniListParams,
+  AddUniListInput,
+  EditUserInput,
+  EditUserParams
+} from "../schema/user.schema";
 import {
   createUser,
   findUserById,
@@ -8,7 +15,7 @@ import {
 import UniversityModel from "../model/university.model"
 import UserModel from "../model/user.model"
 
-export async function getAllUsers(req: Request, res: Response) {
+export async function getAllUsers(_req: Request, res: Response) {
   try {
     const users = await findUsers()
 
@@ -34,7 +41,7 @@ export async function getUserById(req: Request, res: Response) {
   }
 }
 
-export async function getCurrentUserHandler(req: Request, res: Response) {
+export async function getCurrentUserHandler(_req: Request, res: Response) {
   return res.send(res.locals.user);
 }
 
@@ -72,11 +79,49 @@ export async function AddUniversityList(req: Request<AddUniListParams, {}, AddUn
 
     const unis = unisFound.map(uni => uni._id)
 
-    user.universities = unis
+    user.universities.push(unis)
+
     await user.save()
 
-    return res.status(200).json({user})
-  } catch(e) {
+    return res.status(200).send(user)
+  } catch (e) {
+    return res.status(500).send(e)
+  }
+}
+
+export async function addOneTaskCompleted(req: Request, res: Response) {
+  try {
+    const { id } = req.params
+
+    const user = await UserModel.findById(id)
+
+    if (!user) return res.status(404).send("No user found")
+
+    user.completedTasks += 1
+
+    await user.save()
+
+    return res.status(201).send("User task completed successfully")
+  } catch (e) {
+    return res.status(500).send(e)
+  }
+}
+
+export async function updateUser(req: Request<EditUserParams, {}, EditUserInput>, res: Response) {
+  try {
+    const { id } = req.params
+    const body = req.body
+
+    if (body.password) {
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(body.password, salt);
+      body.password = hash;
+    }
+
+    const userUpdated = await UserModel.findByIdAndUpdate(id, body, { new: true })
+
+    return res.status(201).send(userUpdated)
+  } catch (e) {
     return res.status(500).send(e)
   }
 }
