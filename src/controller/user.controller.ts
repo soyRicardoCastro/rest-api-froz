@@ -73,7 +73,7 @@ export async function AddUniversityList(req: Request<AddUniListParams, {}, AddUn
 
     if (!unisFound) return res.status(404).send('No unis found')
 
-    const user = await UserModel.findById(id)
+    const user = await UserModel.findById(id) as any
 
     if (!user) return res.status(404).send('No user found')
 
