@@ -55,7 +55,7 @@ export class User {
   phone: string;
 
   @prop({ required: true })
-  age: number;
+  age: string;
 
   @prop({ required: true })
   gender: string;
