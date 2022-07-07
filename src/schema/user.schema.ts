@@ -1,4 +1,4 @@
-import { object, string, TypeOf, number, array } from "zod";
+import { object, string, TypeOf, array } from "zod";
 
 export const createUserSchema = object({
   body: object({
@@ -17,7 +17,7 @@ export const createUserSchema = object({
     email: string({
       required_error: "Email is required",
     }).email("Not a valid email"),
-    age: number({
+    age: string({
       required_error: "Age is required"
     }).nonnegative(),
     gender: string({
