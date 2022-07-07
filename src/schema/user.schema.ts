@@ -19,7 +19,7 @@ export const createUserSchema = object({
     }).email("Not a valid email"),
     age: string({
       required_error: "Age is required"
-    }).nonnegative(),
+    }),
     gender: string({
       required_error: "Gender is required"
     }),
@@ -44,7 +44,7 @@ export const editUserSchema = object({
     lastName: string().optional(),
     password: string().min(6, "Password is too short - should be min 6 chars").optional(),
     email: string().email("Not a valid email").optional(),
-    age: number().nonnegative().optional(),
+    age: string().optional(),
     gender: string().optional(),
     address: string().optional(),
     role: array(string()).optional()
