@@ -41,26 +41,23 @@ export async function login(
   req: Request<{}, {}, CreateSessionInput>,
   res: Response
 ) {
-  const message = "Invalid email or password";
-  const { email, password } = req.body;
+  try {
+    const message = "Invalid email or password";
+    const { email, password } = req.body;
 
-  const user = await findUserByEmail(email);
+    const user = await findUserByEmail(email);
 
-  if (!user) return res.status(400).send(message);
+    if (!user) return res.status(400).send(message);
 
-  const isValid = await user.validatePassword(password, user.password);
+    const isValid = await user.validatePassword(password, user.password);
 
-  if (!isValid) return res.status(400).send(message);
+    if (!isValid) return res.status(400).send(message);
 
-  const accessToken = signAccessToken(user);
-
-  const refreshToken = await signRefreshToken({ userId: user._id });
-
-  return res.status(200).send({
-    user,
-    accessToken,
-    refreshToken
-  })
+    return res.status(200).send(user)
+  } catch (e) {
+    console.log(e)
+    return res.status(500).send('internal server error')
+  }
 }
 
 export async function refreshAccessTokenHandler(req: Request, res: Response) {
