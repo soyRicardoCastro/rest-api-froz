@@ -17,6 +17,6 @@ router.post(
 
 router.post("/api/sessions/refresh", refreshAccessTokenHandler);
 
-router.post("/api/login", login)
+router.post("/api/login", validateResource(createSessionSchema), login)
 
 export default router;

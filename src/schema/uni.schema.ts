@@ -14,7 +14,11 @@ export const createUniversitySchema = object({
     academicRank: string({
       required_error: "Academic Rank is required"
     }),
-    careers: array(string()),
+    careers: array(object({
+      name: string({
+        required_error: "Career Name is required"
+      })
+    })).optional(),
     coachs: array(object({
       name: string({
         required_error: "Coach Name is required"
@@ -23,10 +27,8 @@ export const createUniversitySchema = object({
         required_error: "Email is required"
       }).email("Not a valid email"),
       phone: string().optional(),
-      gender: string({
-        required_error: "Gender is required"
-      })
-    })),
+      gender: string().optional()
+    })).optional(),
   })
 })
 
@@ -41,16 +43,19 @@ export const editUniversitySchema = object({
     state: string().optional(),
     division: string().optional(),
     academicRank: string().optional(),
-    careers: array(string()).optional(),
-    coach: object({
+    careers: array(object({
+      name: string().optional()
+    })).optional(),
+    coachs: array(object({
       name: string().optional(),
       email: string().email("Not a valid email").optional(),
       phone: string().optional(),
       gender: string().optional()
-    }),
+    })).optional(),
   })
 })
 
 export type CreateUniversityInput = TypeOf<typeof createUniversitySchema>["body"];
+
 export type EditUniversityInput = TypeOf<typeof editUniversitySchema>["body"]
 export type EditUniversityParams = TypeOf<typeof editUniversitySchema>["params"]

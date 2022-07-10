@@ -40,8 +40,8 @@ export class University {
   @prop()
   academicRank: string;
 
-  @prop()
-  careers: string[]
+  @prop({ type: () => Career })
+  careers: Career[]
 
   @prop({ type: () => Coach })
   coachs: Coach[]

@@ -17,5 +17,5 @@ export function createUni(input: any) {
 }
 
 export function editUni(id: string, body: any) {
-  return UniversityModel.findByIdAndUpdate({ id }, { body }, { new: true })
+  return UniversityModel.findByIdAndUpdate(id, body, { new: true })
 }
