@@ -1,11 +1,14 @@
 import { Request, Response } from "express"
-import { findAllUni, createUni, findUniById, editUni } from "../service/uni.service"
+import {
+  findAllUni
+  createUni,
+  findUniById,
+  editUni
+} from "../service/uni.service"
 import {
   CreateUniversityInput,
   EditUniversityParams,
-  EditUniversityInput,
-  AddCareerInput,
-  AddCoachInput
+  EditUniversityInput
 } from "../schema/uni.schema"
 
 export async function getAllUni(_req: Request, res: Response) {
@@ -62,50 +65,3 @@ export async function editUniversity(req: Request<EditUniversityParams, {}, Edit
   }
 }
 
-export async function editUniCoach(req: Request<EditUniversityParams, {}, AddCoachInput>, res: Response) {
-  try {
-    const { id } = req.params
-    const body = req.body
-
-    const uni = await findUniById(id) as any
-
-    if (!uni) return res.status(404).send("No university found")
-
-    uni.coachs = await uni.careers.push(body)
-
-    await uni.save()
-
-    return res.status(201).send("Coachs addedd successfully")
-  } catch (e) {
-    return res.status(500).send(e)
-  }
-}
-
-export async function editUniCareer(req: Request<EditUniversityParams, {}, AddCareerInput>, res: Response) {
-  try {
-    const { id } = req.params
-    const body = req.body
-
-    const uni = await findUniById(id) as any
-    console.log(uni)
-
-    const career = [
-      {
-        name: "Carreer 1"
-      },
-      {
-        name: "career 2"
-      }
-    ]
-
-    if (!uni) return res.status(404).send("No university found")
-
-    uni.careers = uni.careers.push(career)
-
-    await uni.save()
-
-    return res.status(201).send("Career addedd successfully")
-  } catch (e) {
-    return res.status(500).send(e)
-  }
-}

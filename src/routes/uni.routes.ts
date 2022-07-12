@@ -3,15 +3,11 @@ import {
   getAllUni,
   getUni,
   createUniversity,
-  editUniversity,
-  editUniCareer,
-  editUniCoach
+  editUniversity
 } from "../controller/uni.controller"
 import {
   createUniversitySchema,
-  editUniversitySchema,
-  addCareerSchema,
-  addCoachSchema
+  editUniversitySchema
 } from "../schema/uni.schema"
 import validateResource from "../middleware/validateResource";
 
