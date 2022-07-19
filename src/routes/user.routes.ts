@@ -6,7 +6,8 @@ import {
   getAllUsers,
   AddUniversityList,
   updateUser,
-  addOneTaskCompleted
+  addOneTaskCompleted,
+  deleteUser
 } from "../controller/user.controller";
 import requireUser from "../middleware/requireUser";
 import validateResource from "../middleware/validateResource";
@@ -30,5 +31,7 @@ router.get("/api/users/:id", getUserById)
 router.put("/api/users/:id", validateResource(editUserSchema), updateUser)
 
 router.post("/api/add-user-uni/:id", validateResource(addUniToList),AddUniversityList)
+
+router.delete("/api/users/:id", deleteUser)
 
 export default router;

@@ -125,3 +125,12 @@ export async function updateUser(req: Request<EditUserParams, {}, EditUserInput>
     return res.status(500).send(e)
   }
 }
+
+export async function deleteUser(req: Request, res: Response) {
+  try {
+    await UserModel.findByIdAndDelete(req.params.id)
+    return res.status(201).send("User deleted successfully")
+  } catch (e) {
+    return res.status(500).send(e)
+  }
+}

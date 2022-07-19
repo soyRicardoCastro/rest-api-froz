@@ -10,6 +10,7 @@ import {
   EditUniversityParams,
   EditUniversityInput
 } from "../schema/uni.schema"
+import UniversityModel from '../model/university.model'
 
 export async function getAllUni(_req: Request, res: Response) {
   try {
@@ -65,3 +66,11 @@ export async function editUniversity(req: Request<EditUniversityParams, {}, Edit
   }
 }
 
+export async function deleteUniversity(req: Request, res: Response) {
+  try {
+    await UniversityModel.findByIdAndDelete(req.params.id)
+    return res.status(201).send("University deleted successfully")
+  } catch (e) {
+    return res.status(500).send(e)
+  }
+}

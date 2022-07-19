@@ -3,7 +3,8 @@ import {
   getAllUni,
   getUni,
   createUniversity,
-  editUniversity
+  editUniversity,
+  deleteUniversity
 } from "../controller/uni.controller"
 import {
   createUniversitySchema,
@@ -28,5 +29,7 @@ router.put(
   validateResource(editUniversitySchema),
   editUniversity
 )
+
+router.delete("/api/unis/:id", deleteUniversity)
 
 export default router
