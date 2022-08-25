@@ -23,9 +23,7 @@ export const createUniversitySchema = object({
       name: string({
         required_error: "Coach Name is required"
       }),
-      email: string({
-        required_error: "Email is required"
-      }).email("Not a valid email"),
+      email: string().optional(),
       phone: string().optional(),
       gender: string().optional()
     })).optional(),
@@ -48,7 +46,7 @@ export const editUniversitySchema = object({
     })).optional(),
     coachs: array(object({
       name: string().optional(),
-      email: string().email("Not a valid email").optional(),
+      email: string().optional(),
       phone: string().optional(),
       gender: string().optional()
     })).optional(),
