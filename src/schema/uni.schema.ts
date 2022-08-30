@@ -11,18 +11,12 @@ export const createUniversitySchema = object({
     division: string({
       required_error: "Division is required"
     }),
-    academicRank: string({
-      required_error: "Academic Rank is required"
-    }),
+    academicRank: string().optional(),
     careers: array(object({
-      name: string({
-        required_error: "Career Name is required"
-      })
+      name: string().optional()
     })).optional(),
     coachs: array(object({
-      name: string({
-        required_error: "Coach Name is required"
-      }),
+      name: string().optional(),
       email: string().optional(),
       phone: string().optional(),
       gender: string().optional()
