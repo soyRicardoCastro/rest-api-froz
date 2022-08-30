@@ -1,12 +1,12 @@
 import { getModelForClass, modelOptions, prop, Severity } from "@typegoose/typegoose";
 
 export class Career {
-  @prop()
+  @prop({ default: '' })
   name: string;
 }
 
 export class Coach {
-  @prop()
+  @prop({ default: '' })
   name: string;
 
   @prop({ default: '' })
