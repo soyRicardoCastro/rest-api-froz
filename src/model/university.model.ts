@@ -6,16 +6,16 @@ export class Career {
 }
 
 export class Coach {
-  @prop({ unique: true })
+  @prop()
   name: string;
 
-  @prop({ unique: true })
+  @prop({ default: '' })
   email: string;
 
-  @prop({ unique: true })
+  @prop({ default: '' })
   phone: string;
 
-  @prop()
+  @prop({ default: '' })
   gender: string;
 }
 
@@ -28,10 +28,10 @@ export class Coach {
   },
 })
 export class University {
-  @prop({ required: true, unique: true })
+  @prop()
   name: string;
 
-  @prop({ required: true })
+  @prop()
   state: string;
 
   @prop()
@@ -40,10 +40,10 @@ export class University {
   @prop()
   academicRank: string;
 
-  @prop({ type: () => Career })
+  @prop({ type: () => Career, required: false, default: [] })
   careers: Career[]
 
-  @prop({ type: () => Coach })
+  @prop({ type: () => Coach, required: false, default: [] })
   coachs: Coach[]
 }
 
