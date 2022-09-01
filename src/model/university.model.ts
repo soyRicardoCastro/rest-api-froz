@@ -10,13 +10,7 @@ export class Coach {
   name: string;
 
   @prop({ default: '' })
-  email: string;
-
-  @prop({ default: '' })
-  phone: string;
-
-  @prop({ default: '' })
-  gender: string;
+  contact: string;
 }
 
 @modelOptions({
@@ -36,9 +30,6 @@ export class University {
 
   @prop()
   division: string;
-
-  @prop()
-  academicRank: string;
 
   @prop({ type: () => Career, required: false, default: [] })
   careers: Career[]

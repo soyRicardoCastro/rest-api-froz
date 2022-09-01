@@ -45,8 +45,9 @@ export async function createUniversity(req: Request<{}, {}, CreateUniversityInpu
 
     return res.status(201).send("University successfully created")
   } catch (e: any) {
+    console.log(e)
     if (e.code === 11000) {
-    return res.status(409).send({ message: "University already exists", e });
+      return res.status(409).send({ message: "University already exists", e });
     }
 
     return res.status(500).send(e);

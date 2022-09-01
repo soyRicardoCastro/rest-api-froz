@@ -8,18 +8,13 @@ export const createUniversitySchema = object({
     state: string({
       required_error: "State is required"
     }),
-    division: string({
-      required_error: "Division is required"
-    }),
-    academicRank: string().optional(),
+    division: string().optional(),
     careers: array(object({
       name: string().optional()
     })).optional(),
     coachs: array(object({
       name: string().optional(),
-      email: string().optional(),
-      phone: string().optional(),
-      gender: string().optional()
+      contact: string().optional(),
     })).optional(),
   })
 })
@@ -34,15 +29,12 @@ export const editUniversitySchema = object({
     name: string().optional(),
     state: string().optional(),
     division: string().optional(),
-    academicRank: string().optional(),
     careers: array(object({
       name: string().optional()
     })).optional(),
     coachs: array(object({
       name: string().optional(),
-      email: string().optional(),
-      phone: string().optional(),
-      gender: string().optional()
+      contact: string().optional(),
     })).optional(),
   })
 })
