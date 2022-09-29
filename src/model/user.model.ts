@@ -66,8 +66,14 @@ export class User {
   @prop({ default: 0 })
   completedTasks: number;
 
-  @prop({ type: () => [String], required: true, default: RoleUser})
+  @prop({ required: true, default: RoleUser})
   role: string[];
+
+  @prop()
+  questions: any
+
+  @prop()
+  schedule: any
 
   async validatePassword(password: string, candidatePassword: string) {
     try {

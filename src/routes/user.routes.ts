@@ -7,7 +7,8 @@ import {
   AddUniversityList,
   updateUser,
   addOneTaskCompleted,
-  deleteUser
+  deleteUser,
+  askQuestions 
 } from "../controller/user.controller";
 import requireUser from "../middleware/requireUser";
 import validateResource from "../middleware/validateResource";
@@ -29,6 +30,8 @@ router.get("/api/users", getAllUsers)
 router.get("/api/users/:id", getUserById)
 
 router.put("/api/users/:id", validateResource(editUserSchema), updateUser)
+
+router.put("/api/users/college-fit/:id", askQuestions)
 
 router.post("/api/add-user-uni/:id", validateResource(addUniToList),AddUniversityList)
 

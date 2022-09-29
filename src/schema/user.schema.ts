@@ -1,4 +1,4 @@
-import { object, string, TypeOf, array } from "zod";
+import { object, string, TypeOf, array, any } from "zod";
 
 export const createUserSchema = object({
   body: object({
@@ -47,7 +47,9 @@ export const editUserSchema = object({
     age: string().optional(),
     gender: string().optional(),
     address: string().optional(),
-    role: array(string()).optional()
+    role: array(string()).optional(),
+    schedule: any(),
+    questions: array(any())
   }),
 });
 

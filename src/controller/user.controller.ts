@@ -134,3 +134,19 @@ export async function deleteUser(req: Request, res: Response) {
     return res.status(500).send(e)
   }
 }
+
+export const askQuestions = async (req: Request, res: Response) => {
+  try {
+    const user = await UserModel.findById(req.params.id)
+
+    if (!user) throw new Error("User not found");
+
+    user.questions = req.body
+
+    await user.save()
+
+    return res.status(201).send("OK")
+  } catch (e) {
+    return res.status(500).send(e)
+  }
+}
