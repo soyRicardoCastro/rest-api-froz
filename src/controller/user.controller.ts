@@ -150,3 +150,20 @@ export const askQuestions = async (req: Request, res: Response) => {
     return res.status(500).send(e)
   }
 }
+
+export const useSchedule = async (req: Request, res: Response) => {
+  try {
+    const user = await UserModel.findById(req.params.id)
+
+    if (!user) return res.status(404)
+
+    user.schedule = req.body
+
+    await user.save()
+
+    return res.status(202).send("Ok")
+  } catch (e) {
+    console.log(e)
+    return res.status(500).send(e)
+  }
+}
