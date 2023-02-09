@@ -1,15 +1,20 @@
-import { getModelForClass, modelOptions, prop, Severity } from "@typegoose/typegoose";
+import {
+  getModelForClass,
+  modelOptions,
+  prop,
+  Severity,
+} from "@typegoose/typegoose";
 
 export class Career {
-  @prop({ default: '' })
+  @prop({ default: "" })
   name: string;
 }
 
 export class Coach {
-  @prop({ default: '' })
+  @prop({ default: "" })
   name: string;
 
-  @prop({ default: '' })
+  @prop({ default: "" })
   contact: string;
 }
 
@@ -29,15 +34,18 @@ export class University {
   state: string;
 
   @prop()
+  url: string;
+
+  @prop()
   division: string;
 
   @prop({ type: () => Career, required: false, default: [] })
-  careers: Career[]
+  careers: Career[];
 
   @prop({ type: () => Coach, required: false, default: [] })
-  coachs: Coach[]
+  coachs: Coach[];
 }
 
-const UniversityModel = getModelForClass(University)
+const UniversityModel = getModelForClass(University);
 
-export default UniversityModel
+export default UniversityModel;
