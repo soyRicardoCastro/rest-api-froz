@@ -17,14 +17,13 @@ export async function createSessionHandler(
   const { email, password } = req.body;
 
   const user = await findUserByEmail(email);
-
   if (!user) return res.status(400).send(message);
 
   const isValid = await user.validatePassword(password, user.password);
-
   if (!isValid) return res.status(400).send(message);
 
   // * sign a access token
+  console.log("accessToken");
   const accessToken = signAccessToken(user);
 
   // * sign a refresh token
@@ -53,10 +52,10 @@ export async function login(
 
     if (!isValid) return res.status(400).send(message);
 
-    return res.status(200).send(user)
+    return res.status(200).send(user);
   } catch (e) {
-    console.log(e)
-    return res.status(500).send('internal server error')
+    console.log(e);
+    return res.status(500).send("internal server error");
   }
 }
 
@@ -72,7 +71,8 @@ export async function refreshAccessTokenHandler(req: Request, res: Response) {
 
   const session = await findSessionById(decoded.session);
 
-  if (!session || !session.valid) return res.status(401).send("Could not refresh access token");
+  if (!session || !session.valid)
+    return res.status(401).send("Could not refresh access token");
 
   const user = await findUserById(String(session.user));
 

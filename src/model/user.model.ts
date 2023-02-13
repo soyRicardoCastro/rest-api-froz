@@ -13,7 +13,7 @@ import autopopulate from 'mongoose-autopopulate';
 import log from "../utils/logger";
 import { University } from "./university.model";
 
-export const RoleUser = ["user"]
+export const RoleUser = "user"
 export const privateFields = ["password",];
 
 @pre<User>("save", async function () {
