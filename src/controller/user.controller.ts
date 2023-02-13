@@ -1,28 +1,28 @@
-import { Request, Response } from "express";
-import bcrypt from "bcrypt";
+import { Request, Response } from 'express';
+import bcrypt from 'bcrypt';
 import {
   CreateUserInput,
   AddUniListParams,
   AddUniListInput,
   EditUserInput,
   EditUserParams,
-} from "../schema/user.schema";
-import { createUser, findUserById, findUsers } from "../service/user.service";
-import UniversityModel from "../model/university.model";
-import UserModel from "../model/user.model";
+} from '../schema/user.schema';
+import { createUser, findUserById, findUsers } from '../service/user.service';
+import UniversityModel from '../model/university.model';
+import UserModel from '../model/user.model';
 // import { findAllUni } from "../service/uni.service";
-import CollegeFitModel from "../model/collegeFit.model";
+import CollegeFitModel from '../model/collegeFit.model';
 
 export async function getAllUsers(_req: Request, res: Response) {
   try {
     const users = await findUsers();
 
-    if (!users) return res.status(404).send("No users found");
+    if (!users) return res.status(404).send('No users found');
 
     return res.status(200).json(users);
   } catch (e) {
     console.error(e);
-    return res.status(500).send("Internal server error");
+    return res.status(500).send('Internal server error');
   }
 }
 
@@ -31,7 +31,7 @@ export async function getUserById(req: Request, res: Response) {
     const { id } = req.params;
     const user = await findUserById(id);
 
-    if (!user) return res.status(404).send("No user found");
+    if (!user) return res.status(404).send('No user found');
 
     return res.status(200).json(user);
   } catch (e) {
@@ -52,10 +52,10 @@ export async function createUserHandler(
   try {
     await createUser(body);
 
-    return res.send("User successfully created");
+    return res.send('User successfully created');
   } catch (e: any) {
     if (e.code === 11000) {
-      return res.status(409).send("Account already exists");
+      return res.status(409).send('Account already exists');
     }
 
     return res.status(500).send(e);
@@ -70,17 +70,25 @@ export async function AddUniversityList(
     const { id } = req.params;
     const { universities } = req.body;
 
-    const unisFound = await UniversityModel.find({ name: universities });
+    const unisFound = await UniversityModel.find({
+      _id: { $in: universities },
+    });
 
-    if (!unisFound) return res.status(404).send("No unis found");
+    if (!unisFound) {
+      return res.status(404).send('No unis found');
+    }
 
-    const user = (await UserModel.findById(id)) as any;
+    const user = await UserModel.findById(id);
 
-    if (!user) return res.status(404).send("No user found");
+    if (!user) {
+      return res.status(404).send('No user found');
+    }
 
-    const unis = unisFound.map((uni) => uni._id);
+    const newUnis = unisFound.filter((uni) => {
+      return !user.universities.some((u) => u && u._id.equals(uni._id));
+    });
 
-    user.universities.push(unis);
+    user.universities.push(...newUnis);
 
     await user.save();
 
@@ -96,13 +104,13 @@ export async function addOneTaskCompleted(req: Request, res: Response) {
 
     const user = await UserModel.findById(id);
 
-    if (!user) return res.status(404).send("No user found");
+    if (!user) return res.status(404).send('No user found');
 
     user.completedTasks += 1;
 
     await user.save();
 
-    return res.status(201).send("User task completed successfully");
+    return res.status(201).send('User task completed successfully');
   } catch (e) {
     return res.status(500).send(e);
   }
@@ -135,7 +143,7 @@ export async function updateUser(
 export async function deleteUser(req: Request, res: Response) {
   try {
     await UserModel.findByIdAndDelete(req.params.id);
-    return res.status(201).send("User deleted successfully");
+    return res.status(201).send('User deleted successfully');
   } catch (e) {
     return res.status(500).send(e);
   }
@@ -145,17 +153,18 @@ export const askQuestions = async (req: Request, res: Response) => {
   try {
     const user = await UserModel.findById(req.params.id);
 
-    if (!user) throw new Error("User not found");
+    if (!user) throw new Error('User not found');
 
     user.questions = req.body;
 
     await user.save();
 
-    return res.status(201).send("OK");
+    return res.status(201).send('OK');
   } catch (e) {
     return res.status(500).send(e);
   }
 };
+
 export const getAskQuestions = async (req: Request, res: Response) => {
   try {
     let arrayToSend: Array<{
@@ -166,21 +175,21 @@ export const getAskQuestions = async (req: Request, res: Response) => {
     }> = [];
 
     const user = await UserModel.findById(req.params.id);
-    if (!user) throw new Error("User not found");
+    if (!user) throw new Error('User not found');
 
     const division = await CollegeFitModel.find({
       competitionLevel: { $in: user.questions.ask12 },
     });
-    if (!division) throw new Error("Division not found");
+    if (!division) throw new Error('Division not found');
 
     const names = division.map((element) => element.name);
     const universities = await UniversityModel.find({
       state: { $in: user.questions.ask6 },
       division: { $in: names },
     });
-    if (!universities) throw new Error("University not found");
+    if (!universities) throw new Error('University not found');
     if (universities.length === 0)
-      return res.status(404).json({ message: "No match for your search" });
+      return res.status(404).json({ message: 'No match for your search' });
 
     universities.map((item) => {
       const newElement = {
@@ -203,21 +212,21 @@ export const getAskQuestions = async (req: Request, res: Response) => {
 export const getUniversityMatch = async (req: Request, res: Response) => {
   try {
     const user = await UserModel.findById(req.params.id);
-    if (!user) throw new Error("User not found");
+    if (!user) throw new Error('User not found');
 
     const division = await CollegeFitModel.find({
       competitionLevel: { $in: user.questions.ask12 },
     });
-    if (!division) throw new Error("Division not found");
+    if (!division) throw new Error('Division not found');
 
     const names = division.map((element) => element.name);
     const universities = await UniversityModel.find({
       state: { $in: user.questions.ask6 },
       division: { $in: names },
     });
-    if (!universities) throw new Error("University not found");
+    if (!universities) throw new Error('University not found');
     if (universities.length === 0)
-      return res.status(404).json({ message: "No match for your search" });
+      return res.status(404).json({ message: 'No match for your search' });
 
     return res.status(200).json({
       userResponses: user.questions,
@@ -237,7 +246,7 @@ export const useSchedule = async (req: Request, res: Response) => {
     user.schedule = req.body;
     await user.save();
 
-    return res.status(202).send("Ok");
+    return res.status(202).send('Ok');
   } catch (e) {
     console.log(e);
     return res.status(500).send(e);
