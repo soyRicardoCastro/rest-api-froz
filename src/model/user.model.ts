@@ -67,7 +67,7 @@ export class User {
   completedTasks: number;
 
   @prop({ required: true, default: RoleUser})
-  role: string;
+  role: string[];
 
   @prop()
   questions: any
