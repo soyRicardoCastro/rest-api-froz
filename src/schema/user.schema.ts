@@ -26,7 +26,7 @@ export const createUserSchema = object({
     address: string({
       required_error: "Address is required"
     }),
-    role: array(string()).optional()
+    role: string().optional()
   }).refine((data) => data.password === data.passwordConfirmation, {
     message: "Passwords do not match",
     path: ["passwordConfirmation"],
@@ -47,7 +47,7 @@ export const editUserSchema = object({
     age: string().optional(),
     gender: string().optional(),
     address: string().optional(),
-    role: array(string()).optional(),
+    role: string().optional(),
     schedule: any(),
     questions: array(any())
   }),
