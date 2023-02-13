@@ -1,4 +1,4 @@
-import { getModelForClass, prop } from "@typegoose/typegoose";
+import { getModelForClass, prop } from '@typegoose/typegoose';
 
 export class CollegeFit {
   @prop({ required: true, unique: true })
