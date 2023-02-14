@@ -28,6 +28,9 @@ export class Coach {
 })
 export class University {
   @prop()
+  _id: string;
+
+  @prop()
   name: string;
 
   @prop()
