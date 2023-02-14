@@ -12,6 +12,7 @@ import UniversityModel from '../model/university.model';
 import UserModel from '../model/user.model';
 // import { findAllUni } from "../service/uni.service";
 import CollegeFitModel from '../model/collegeFit.model';
+import { ObjectId } from 'mongodb';
 
 export async function getAllUsers(_req: Request, res: Response) {
   try {
@@ -84,8 +85,12 @@ export async function AddUniversityList(
       return res.status(404).send('No user found');
     }
 
-    const newUnis = unisFound.filter((uni) => {
-      return !user.universities.some((u) => u && u._id.equals(uni._id));
+      const newUnis = unisFound.filter((uni) => {
+      return (
+        !user.universities.some(
+          (u) => u && typeof u === "object" && u._id && new ObjectId(u._id).equals(uni._id)
+        ) && uni._id
+      );
     });
 
     user.universities.push(...newUnis);
